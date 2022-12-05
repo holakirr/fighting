@@ -1,0 +1,13 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true,
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescriptHero.imports.organizeOnSave": true,
+  "typescriptHero.imports.disableImportsSorting": true,
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}
