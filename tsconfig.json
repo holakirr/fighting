@@ -4,7 +4,6 @@
 		"target": "ES6",
 		"lib": ["ES6", "dom"],
 		"noUnusedLocals": true,
-		"module": "commonjs",
 		"module": "ES6",
 		"outDir": "dist",
 		"moduleResolution": "node"
