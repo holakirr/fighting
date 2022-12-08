@@ -12,15 +12,17 @@ export interface Coordinates {
 }
 
 export abstract class SpriteAbstract {
-	position: Coordinates;
-	velocity: Coordinates;
-	height: number;
-	width: number;
-	lastKey: Keys;
-
-	constructor({ position, velocity }: { position: Coordinates; velocity: Coordinates });
-
-	abstract draw(): void;
+	public position: Coordinates;
+	public velocity: Coordinates;
+	public readonly height: number;
+	public readonly width: number;
+	public lastKey: Keys;
+	public attackBox: {
+		position: Coordinates;
+		width: number;
+		height: number;
+	};
+	public isAttacking: boolean;
 
 	abstract update(): void;
 }
