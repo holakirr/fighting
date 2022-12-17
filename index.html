@@ -5,59 +5,27 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Fighting</title>
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				/* background-color: #000; */
-			}
-			main {
-				position: relative;
-				display: inline-block;
-			}
-			.interface {
-				position: absolute;
-				top: 20px;
-				left: 0;
-				width: 100%;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				gap: 20px;
-				padding: 0 100px;
-				box-sizing: border-box;
-			}
-			.health-bar {
-				background-color: gray;
-				flex-grow: 1;
-				display: flex;
-			}
-			.health {
-				background-color: yellow;
-				width: 100%;
-				height: 30px;
-				transition: all 0.3s ease;
-			}
-			.timer {
-				background-color: red;
-				height: 50px;
-				width: 50px;
-			}
-		</style>
+		<link rel="stylesheet" href="./index.css" />
 	</head>
 	<body>
 		<main>
 			<div class="interface" id="interface">
-				<div class="health-bar" style="justify-content: end">
-					<div class="health" id="rightHealth"></div>
+				<div class="top-interface">
+					<div class="health-bar" style="justify-content: end">
+						<div class="health" id="rightHealth"></div>
+					</div>
+					<div class="timer" id="timer"></div>
+					<div class="health-bar">
+						<div class="health" id="leftHealth"></div>
+					</div>
 				</div>
-				<div class="timer" id="timer"></div>
-				<div class="health-bar">
-					<div class="health" id="leftHealth"></div>
+				<div class="center-interface">
+					<div class="menu hidden">
+						<div class="menu-position"></div>
+					</div>
+					<div class="popup" id="popup">
+						<h1 class="title"></h1>
+					</div>
 				</div>
 			</div>
 			<canvas id="canvas"></canvas>

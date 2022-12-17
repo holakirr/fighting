@@ -1,0 +1,73 @@
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* background-color: #000; */
+}
+main {
+	position: relative;
+	display: inline-block;
+}
+.top-interface {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	padding: 0 100px;
+	box-sizing: border-box;
+}
+.health-bar {
+	background-color: gray;
+	flex-grow: 1;
+	display: flex;
+}
+.health {
+	background-color: yellow;
+	width: 100%;
+	height: 30px;
+	transition: all 0.3s ease;
+}
+.timer {
+	background-color: red;
+	height: 50px;
+	width: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
+	font-family: 'Roboto', sans-serif;
+}
+.center-interface {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.popup {
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 20px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-width: 200px;
+	min-height: 200px;
+}
+.title {
+	text-transform: uppercase;
+}
+.hidden {
+	opacity: 0;
+	pointer-events: none;
+}

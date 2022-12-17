@@ -7,6 +7,7 @@ export const SPRITE_HEIGHT = 150;
 export const SPRITE_WIDTH = 50;
 export const ATTACK_WIDTH = 100;
 export const ATTACK_HEIGHT = 50;
+export const BASE_TIME = 10;
 export const BASE_PLAYER_POSITION = {
 	x: 200,
 	y: 100,

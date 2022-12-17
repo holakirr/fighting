@@ -26,3 +26,5 @@ export abstract class SpriteAbstract {
 
 	abstract update(): void;
 }
+
+export type fightStates = 'start' | 'fight!' | 'draw' | 'player 1 win' | 'player 2 win';
