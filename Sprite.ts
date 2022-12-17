@@ -19,6 +19,7 @@ export class Sprite implements SpriteAbstract {
 	};
 	public isAttacking = false;
 	private readonly ctx: CanvasRenderingContext2D;
+	public health = 100;
 
 	constructor(
 		private color: string,

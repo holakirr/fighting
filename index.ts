@@ -13,6 +13,12 @@ if (!document.getElementById('canvas')) {
 	throw new Error('No canvas element found');
 }
 const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
+const UI = {
+	container: document.getElementById('interface'),
+	playerHealth: document.getElementById('rightHealth'),
+	timerBlock: document.getElementById('timer'),
+	enemyHealth: document.getElementById('leftHealth'),
+};
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = 600;
@@ -50,10 +56,14 @@ const animate = () => {
 	// Detect collision
 	if (rectangularCollision({ rect1: player, rect2: enemy }) && player.isAttacking) {
 		player.isAttacking = false;
+		enemy.health -= 20;
+		UI.enemyHealth.style.width = `${enemy.health}%`;
 		console.log('player hit');
 	}
 	if (rectangularCollision({ rect1: enemy, rect2: player }) && enemy.isAttacking) {
 		enemy.isAttacking = false;
+		player.health -= 20;
+		UI.playerHealth.style.width = `${player.health}%`;
 		console.log('enemy hit');
 	}
 };

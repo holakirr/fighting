@@ -12,7 +12,7 @@ export const BASE_PLAYER_POSITION = {
 	y: 100,
 };
 export const BASE_ENEMY_POSITION = {
-	x: window.innerWidth - 200,
+	x: window.innerWidth - 200 - SPRITE_WIDTH,
 	y: 100,
 };
 export const movements: Movements = {
