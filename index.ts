@@ -1,4 +1,11 @@
-import { BASE_ENEMY_POSITION, BASE_PLAYER_POSITION, JUMP, movements, STEP, WIDTH } from './constants.js';
+import {
+  BASE_ENEMY_POSITION,
+  BASE_PLAYER_POSITION,
+  JUMP_HEIGHT,
+  movements,
+  SPRITE_WIDTH,
+  STEP_LENGTH,
+} from './constants.js';
 import { rectangularCollision } from './helpers.js';
 import { Sprite } from './Sprite.js';
 
@@ -14,7 +21,7 @@ if (!ctx) {
 }
 
 const player = new Sprite('red', canvas, BASE_PLAYER_POSITION, { x: 0, y: 0 }, { x: 0, y: 0 });
-const enemy = new Sprite('blue', canvas, BASE_ENEMY_POSITION, { x: 0, y: 0 }, { x: -WIDTH, y: 0 });
+const enemy = new Sprite('blue', canvas, BASE_ENEMY_POSITION, { x: 0, y: 0 }, { x: -SPRITE_WIDTH, y: 0 });
 
 const animate = () => {
 	window.requestAnimationFrame(animate);
@@ -28,16 +35,16 @@ const animate = () => {
 
 	// Player Movement
 	if (movements.a.active && player.lastKey === 'a') {
-		player.velocity.x = -STEP;
+		player.velocity.x = -STEP_LENGTH;
 	} else if (movements.d.active && player.lastKey === 'd') {
-		player.velocity.x = STEP;
+		player.velocity.x = STEP_LENGTH;
 	}
 
 	// Enemy Movement
 	if (movements.arrowleft.active && enemy.lastKey === 'arrowleft') {
-		enemy.velocity.x = -STEP;
+		enemy.velocity.x = -STEP_LENGTH;
 	} else if (movements.arrowright.active && enemy.lastKey === 'arrowright') {
-		enemy.velocity.x = STEP;
+		enemy.velocity.x = STEP_LENGTH;
 	}
 
 	// Detect collision
@@ -59,7 +66,7 @@ window.addEventListener('keydown', e => {
 		// Player
 		case 'w':
 			if (player.position.y + player.height === canvas.height) {
-				player.velocity.y = -JUMP;
+				player.velocity.y = -JUMP_HEIGHT;
 			}
 			break;
 		case 'd':
@@ -73,7 +80,7 @@ window.addEventListener('keydown', e => {
 		// Enemy
 		case 'arrowup':
 			if (enemy.position.y + enemy.height === canvas.height) {
-				enemy.velocity.y = -JUMP;
+				enemy.velocity.y = -JUMP_HEIGHT;
 			}
 			break;
 		case 'arrowright':

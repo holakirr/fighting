@@ -1,9 +1,9 @@
-import { ATTACK_HEIGHT, ATTACK_WIDTH, GRAVITY, HEIGHT, WIDTH } from './constants.js';
+import { ATTACK_HEIGHT, ATTACK_WIDTH, GRAVITY, SPRITE_HEIGHT, SPRITE_WIDTH } from './constants.js';
 import { Coordinates, Keys, SpriteAbstract } from './types.js';
 
 export class Sprite implements SpriteAbstract {
-	public readonly height = HEIGHT;
-	public readonly width = WIDTH;
+	public readonly height = SPRITE_HEIGHT;
+	public readonly width = SPRITE_WIDTH;
 	public lastKey: Keys;
 	public readonly attackBox = {
 		position: {
@@ -74,7 +74,5 @@ export class Sprite implements SpriteAbstract {
 		setTimeout(() => {
 			this.isAttacking = false;
 		}, 100);
-		// this.attackBox.position.x = this.position.x + this.width;
-		// this.attackBox.position.y = this.position.y / 2;
 	}
 }
