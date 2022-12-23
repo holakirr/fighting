@@ -16,6 +16,7 @@ export abstract class SpriteAbstract {
 	public velocity: Coordinates;
 	public readonly height: number;
 	public readonly width: number;
+	public health: number;
 	public lastKey: Keys;
 	public attackBox: {
 		position: Coordinates;
@@ -25,6 +26,7 @@ export abstract class SpriteAbstract {
 	public isAttacking: boolean;
 
 	abstract update(): void;
+	abstract attack(): void;
 }
 
 export type fightStates = 'start' | 'fight!' | 'draw' | 'player 1 win' | 'player 2 win';
