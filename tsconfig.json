@@ -1,11 +1,14 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
-		"target": "ES6",
-		"lib": ["ES6", "dom"],
+		"target": "ES2015",
+		"lib": ["ES2015", "dom"],
 		"noUnusedLocals": true,
-		"module": "ES6",
+		"module": "ES2015",
 		"outDir": "dist",
-		"moduleResolution": "node"
-	}
+		"moduleResolution": "node",
+		"inlineSources": false
+	},
+	"max-line-length": [true, 120],
+	"exclude": ["node_modules", "dist"]
 }

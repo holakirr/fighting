@@ -1,7 +1,7 @@
-import { BASE_TIME, JUMP_HEIGHT, STEP_LENGTH } from './constants.js';
-import { rectangularCollision } from './helpers.js';
-import { Movements } from './types.d.js';
-import { SpriteAbstract } from './types.js';
+import { BASE_FIGHTER_ATTACK, BASE_TIME, STEP_LENGTH } from './constants.js';
+import { determineWinner, keyListeners, rectangularCollision } from './helpers.js';
+import { Sprite } from './Sprite.js';
+import { FighterAbstract, Movements, SpriteAbstract } from './types.d.js';
 
 export class Fight {
 	UI: Record<string, HTMLElement> = {
@@ -12,9 +12,11 @@ export class Fight {
 	};
 	state = 'start';
 	time = BASE_TIME;
-	player: SpriteAbstract;
-	enemy: SpriteAbstract;
 	canvas: HTMLCanvasElement;
+	ctx: CanvasRenderingContext2D;
+	backgrounds: SpriteAbstract[];
+	player: FighterAbstract;
+	enemy: FighterAbstract;
 	movements: Movements = {
 		a: {
 			active: false,
@@ -41,68 +43,27 @@ export class Fight {
 			active: false,
 		},
 	};
-	ctx: CanvasRenderingContext2D;
 
 	constructor(player, enemy, canvas) {
 		this.player = player;
 		this.enemy = enemy;
 		this.canvas = canvas;
 		this.ctx = this.canvas.getContext('2d');
+		this.backgrounds = [
+			new Sprite({
+				canvas: canvas,
+				position: { x: 0, y: 0 },
+				imgSrc: './assets/img/Background.png',
+				scale: 'fullscreen',
+			}),
+		];
 	}
-
-	keyDownListeners = e => {
-		const key = e.key.toLowerCase();
-		switch (key) {
-			// Player
-			case 'w':
-				if (this.player.position.y + this.player.height === this.canvas.height) {
-					this.player.velocity.y = -JUMP_HEIGHT;
-				}
-				break;
-			case 'd':
-			case 'a':
-				this.movements[key].active = true;
-				this.player.lastKey = key;
-				break;
-			case ' ':
-				this.player.attack();
-				break;
-			// Enemy
-			case 'arrowup':
-				if (this.enemy.position.y + this.enemy.height === this.canvas.height) {
-					this.enemy.velocity.y = -JUMP_HEIGHT;
-				}
-				break;
-			case 'arrowright':
-			case 'arrowleft':
-				this.movements[key].active = true;
-				this.enemy.lastKey = key;
-				break;
-			case 'enter':
-				this.enemy.attack();
-				break;
-		}
-	};
-
-	keyUpListeners = e => {
-		const key = e.key.toLowerCase();
-
-		switch (key) {
-			case 'd':
-			case 'a':
-				this.player.lastKey = undefined;
-				break;
-			case 'arrowright':
-			case 'arrowleft':
-				this.enemy.lastKey = undefined;
-				break;
-		}
-	};
 
 	animate = () => {
 		window.requestAnimationFrame(this.animate);
 		this.ctx.fillStyle = 'rgb(0, 0, 0)';
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		this.backgrounds.forEach(bg => bg.update());
 		this.player.update();
 		this.enemy.update();
 
@@ -126,15 +87,13 @@ export class Fight {
 		// Detect collision
 		if (rectangularCollision({ rect1: this.player, rect2: this.enemy }) && this.player.isAttacking) {
 			this.player.isAttacking = false;
-			this.enemy.health -= 20;
+			this.enemy.health -= BASE_FIGHTER_ATTACK;
 			this.UI.enemyHealth.style.width = `${this.enemy.health}%`;
-			console.log('player hit');
 		}
 		if (rectangularCollision({ rect1: this.enemy, rect2: this.player }) && this.enemy.isAttacking) {
 			this.enemy.isAttacking = false;
-			this.player.health -= 20;
+			this.player.health -= BASE_FIGHTER_ATTACK;
 			this.UI.playerHealth.style.width = `${this.player.health}%`;
-			console.log('enemy hit');
 		}
 
 		// Check if fight is over
@@ -142,6 +101,10 @@ export class Fight {
 			this.end();
 		}
 	};
+
+	keyUpListeners = e => keyListeners.Up(e, this.player, this.enemy);
+
+	keyDownListeners = e => keyListeners.Down(e, this.player, this.enemy, this.movements, this.canvas);
 
 	start = () => {
 		this.animate();
@@ -171,16 +134,12 @@ export class Fight {
 	};
 
 	end = () => {
-		if (this.player.health > this.enemy.health) {
-			this.state = 'player 1 win';
-		} else if (this.player.health < this.enemy.health) {
-			this.state = 'player 2 win';
-		} else {
-			this.state = 'draw';
-		}
+		this.state = determineWinner(this.player, this.enemy);
 		this.UI.popup.querySelector('.title').innerHTML = this.state;
 		this.UI.popup.classList.remove('hidden');
 		this.UI.timer.innerHTML = '0';
+		this.player.stop();
+		this.enemy.stop();
 
 		document.removeEventListener('keydown', this.keyDownListeners);
 		document.removeEventListener('keyup', this.keyUpListeners);
