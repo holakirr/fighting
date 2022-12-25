@@ -1,11 +1,11 @@
-import { ATTACK_HEIGHT, ATTACK_WIDTH, BASE_FIGHTER_HEALTH, GRAVITY, SPRITE_HEIGHT, SPRITE_WIDTH } from './constants.js';
+import { ATTACK_HEIGHT, ATTACK_WIDTH, BASE_FIGHTER_HEALTH, GRAVITY } from './constants.js';
 import { getFloorPos } from './helpers.js';
 import { Sprite } from './Sprite.js';
 import { FighterAbstract, FighterOptions, Keys } from './types.js';
 
 export class Fighter extends Sprite implements FighterAbstract {
-	public readonly width = SPRITE_WIDTH;
-	public readonly height = SPRITE_HEIGHT;
+	public width: number;
+	public height: number;
 	public readonly attackBox = {
 		position: {
 			x: this.position.x,
@@ -25,8 +25,8 @@ export class Fighter extends Sprite implements FighterAbstract {
 	public color: string;
 	public canvas: HTMLCanvasElement;
 
-	constructor({ canvas, position, color, offset, velocity }: FighterOptions) {
-		super({ canvas: canvas, position, imgSrc: '' });
+	constructor({ canvas, position, color, offset, velocity, imgSrc, scale, frames }: FighterOptions) {
+		super({ canvas: canvas, position, imgSrc, scale, frames });
 
 		this.attackBox.position = {
 			x: this.position.x,
@@ -36,23 +36,11 @@ export class Fighter extends Sprite implements FighterAbstract {
 		this.velocity = velocity;
 		this.color = color;
 		this.canvas = canvas;
-	}
-
-	public draw() {
-		// sprite
-		this.ctx.fillStyle = this.color;
-		this.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-		// attackBox
-		if (this.isAttacking) {
-			this.ctx.fillStyle = 'green';
-			this.ctx.fillRect(
-				this.attackBox.position.x,
-				this.attackBox.position.y,
-				this.attackBox.width,
-				this.attackBox.height,
-			);
-		}
+		this.img.onload = () => {
+			this.width = this.img.width / this.frames;
+			this.height = this.img.height;
+			console.log(this.width, this.height);
+		};
 	}
 
 	update() {

@@ -1,7 +1,7 @@
 import { BASE_FIGHTER_ATTACK, BASE_TIME, STEP_LENGTH } from './constants.js';
 import { determineWinner, keyListeners, rectangularCollision } from './helpers.js';
 import { Sprite } from './Sprite.js';
-import { FighterAbstract, Movements, SpriteAbstract } from './types.d.js';
+import { FighterAbstract, FightOptions, Movements, SpriteAbstract } from './types.d.js';
 
 export class Fight {
 	UI: Record<string, HTMLElement> = {
@@ -44,7 +44,7 @@ export class Fight {
 		},
 	};
 
-	constructor(player, enemy, canvas) {
+	constructor({ canvas, player, enemy }: FightOptions) {
 		this.player = player;
 		this.enemy = enemy;
 		this.canvas = canvas;

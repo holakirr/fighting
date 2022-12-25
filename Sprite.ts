@@ -19,13 +19,13 @@ export class Sprite implements SpriteAbstract {
 		this.img = new Image();
 		this.img.src = imgSrc;
 		this.frames = frames || 1;
-		this.img.onload = () => {
-			if (scale === 'fullscreen') {
+		if (scale === 'fullscreen') {
+			this.img.onload = () => {
 				this.scale = this.canvas.width / this.img.width;
-			} else {
-				this.scale = scale || 1;
-			}
-		};
+			};
+		} else {
+			this.scale = scale ? scale : 1;
+		}
 		this.currentFrame = 0;
 	}
 

@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		color: 'red',
 		offset: BASE_PLAYER_OFFSET,
 		velocity: BASE_PLAYER_VELOCITY,
+		imgSrc: './assets/img/player1/sprites/Idle.png',
+		frames: 8,
+		scale: 1.5,
 	});
 	const enemy = new Fighter({
 		canvas,
@@ -32,8 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		color: 'blue',
 		offset: BASE_ENEMY_OFFSET,
 		velocity: BASE_ENEMY_VELOCITY,
+		imgSrc: './assets/img/player2/sprites/Idle.png',
+		frames: 4,
+		scale: 1.5,
 	});
-	const fight = new Fight(player, enemy, canvas);
+	const fight = new Fight({ canvas, player, enemy });
 
 	fight.start();
 });

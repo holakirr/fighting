@@ -34,12 +34,18 @@ export abstract class SpriteAbstract {
 	abstract update(): void;
 }
 
-export interface FighterOptions {
+export interface FighterOptions extends SpriteOptions {
 	canvas: HTMLCanvasElement;
 	position: Coordinates;
 	color: string;
 	offset: Coordinates;
 	velocity: Coordinates;
+}
+
+export interface FightOptions {
+	canvas: HTMLCanvasElement;
+	player: FighterAbstract;
+	enemy: FighterAbstract;
 }
 
 export abstract class FighterAbstract extends SpriteAbstract {
