@@ -17,6 +17,8 @@ export interface SpriteOptions {
 	imgSrc: string;
 	scale?: SpriteScale;
 	frames?: number;
+	offset?: Coordinates;
+	cyclically?: boolean;
 }
 
 export abstract class SpriteAbstract {
@@ -29,6 +31,8 @@ export abstract class SpriteAbstract {
 	framesElapsed: number;
 	readonly framesHold: number;
 	currentFrame: number;
+	offset?: Coordinates;
+	cyclically: boolean;
 
 	abstract draw(): void;
 	abstract update(): void;
@@ -38,9 +42,17 @@ export interface FighterOptions extends SpriteOptions {
 	canvas: HTMLCanvasElement;
 	position: Coordinates;
 	color: string;
-	offset: Coordinates;
+	attackOffset: Coordinates;
 	velocity: Coordinates;
+	sprites: Sprites;
 }
+
+export interface SpritesData {
+	imgSrc: string;
+	frames: number;
+}
+
+export type Sprites = Record<fighterStates, SpritesData>;
 
 export interface FightOptions {
 	canvas: HTMLCanvasElement;
@@ -63,15 +75,19 @@ export abstract class FighterAbstract extends SpriteAbstract {
 	public velocity: Coordinates;
 	public color: string;
 	public canvas: HTMLCanvasElement;
-	// public state: fighterStates;
+	public sprites: Sprites;
+	public state: fighterStates;
+
+	constructor(options: FighterOptions);
 
 	public abstract attack(): void;
-	// public abstract move(): void;
-	// public abstract die(): void;
+	public abstract move(): void;
+	public abstract die(): void;
+	public abstract jump(): void;
 	public abstract stop(): void;
 }
 
 export type fightStates = 'start' | 'fight!' | 'draw' | 'player 1 win' | 'player 2 win';
-export type fighterStates = 'idle' | 'attack' | 'move' | 'die';
+export type fighterStates = 'Idle' | 'Attack1' | 'Run' | 'Death' | 'Jump' | 'Fall' | 'Take Hit';
 
 export type SpriteScale = number | 'fullscreen';

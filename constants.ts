@@ -11,7 +11,11 @@ export const SPRITE_HEIGHT = 150;
 export const SPRITE_WIDTH = 50;
 export const ATTACK_WIDTH = 100;
 export const ATTACK_HEIGHT = 50;
-export const BASE_TIME = 10;
+export const BASE_TIME = 200;
+export const BASE_PLAYER_VELOCITY = { x: 0, y: 0 };
+export const BASE_ENEMY_VELOCITY = { x: 0, y: 0 };
+export const BASE_PLAYER_OFFSET = { x: 0, y: 0 };
+export const BASE_ENEMY_OFFSET = { x: -SPRITE_WIDTH, y: 0 };
 export const movements: Movements = {
 	a: {
 		active: false,

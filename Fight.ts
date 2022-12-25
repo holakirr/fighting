@@ -61,14 +61,9 @@ export class Fight {
 
 	animate = () => {
 		window.requestAnimationFrame(this.animate);
-		this.ctx.fillStyle = 'rgb(0, 0, 0)';
-		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		this.backgrounds.forEach(bg => bg.update());
 		this.player.update();
 		this.enemy.update();
-
-		this.player.velocity.x = 0;
-		this.enemy.velocity.x = 0;
 
 		// Player Movement
 		if (this.movements.a.active && this.player.lastKey === 'a') {
@@ -107,6 +102,7 @@ export class Fight {
 	keyDownListeners = e => keyListeners.Down(e, this.player, this.enemy, this.movements, this.canvas);
 
 	start = () => {
+		this.time = BASE_TIME;
 		this.animate();
 		this.update();
 

@@ -1,7 +1,7 @@
-import { ATTACK_HEIGHT, ATTACK_WIDTH, BASE_FIGHTER_HEALTH, GRAVITY } from './constants.js';
-import { getFloorPos } from './helpers.js';
+import { ATTACK_HEIGHT, ATTACK_WIDTH, BASE_FIGHTER_HEALTH, GRAVITY, JUMP_HEIGHT } from './constants.js';
+import { getFighterState, getFloorPos } from './helpers.js';
 import { Sprite } from './Sprite.js';
-import { FighterAbstract, FighterOptions, Keys } from './types.js';
+import { FighterAbstract, FighterOptions, fighterStates, Keys, Sprites } from './types.js';
 
 export class Fighter extends Sprite implements FighterAbstract {
 	public width: number;
@@ -24,27 +24,47 @@ export class Fighter extends Sprite implements FighterAbstract {
 	public velocity;
 	public color: string;
 	public canvas: HTMLCanvasElement;
+	public sprites: Sprites;
+	public state: fighterStates = 'Idle';
 
-	constructor({ canvas, position, color, offset, velocity, imgSrc, scale, frames }: FighterOptions) {
-		super({ canvas: canvas, position, imgSrc, scale, frames });
+	constructor({
+		canvas,
+		position,
+		color,
+		attackOffset,
+		velocity,
+		imgSrc,
+		scale,
+		frames,
+		offset,
+		sprites,
+	}: FighterOptions) {
+		super({ canvas: canvas, position, imgSrc, scale, frames, offset });
 
 		this.attackBox.position = {
 			x: this.position.x,
 			y: this.position.y,
 		};
-		this.attackBox.offset = offset;
+		this.attackBox.offset = attackOffset;
 		this.velocity = velocity;
 		this.color = color;
 		this.canvas = canvas;
+		this.sprites = sprites;
+	}
+	updateImage() {
+		this.img.src = this.sprites[this.state].imgSrc;
+		this.frames = this.sprites[this.state].frames;
+
 		this.img.onload = () => {
-			this.width = this.img.width / this.frames;
-			this.height = this.img.height;
-			console.log(this.width, this.height);
+			this.width = (this.img.width / this.frames) * this.scale;
+			this.height = this.img.height * this.scale;
 		};
 	}
 
 	update() {
-		this.draw();
+		this.updateState();
+		this.updateImage();
+		super.update();
 		this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
 		this.attackBox.position.y = this.position.y;
 		this.position.x += this.velocity.x;
@@ -56,25 +76,66 @@ export class Fighter extends Sprite implements FighterAbstract {
 		if (height >= floor || this.position.y < 0) {
 			this.velocity.y = 0;
 			this.position.y = floor - this.height;
-		} else this.velocity.y += GRAVITY;
+		} else {
+			this.fall();
+			this.velocity.y += GRAVITY;
+		}
 	}
 
 	attack() {
+		this.currentFrame = 0;
+		this.state = 'Attack1';
 		this.isAttacking = true;
 		setTimeout(() => {
 			this.isAttacking = false;
-		}, 100);
+			this.stop();
+		}, this.frames * 15);
 	}
 
 	stop() {
+		this.currentFrame = 0;
+		this.state = 'Idle';
+		this.velocity.x = 0;
+		this.lastKey = null;
+	}
+
+	move() {
+		this.state = 'Run';
+	}
+
+	jump() {
+		this.currentFrame = 0;
+		this.state = 'Jump';
+		this.velocity.y = -JUMP_HEIGHT;
+	}
+
+	fall() {
+		this.currentFrame = 0;
+		this.state = 'Fall';
+	}
+
+	die() {
+		this.currentFrame = 0;
+		this.state = 'Death';
 		this.velocity = {
 			x: 0,
 			y: 0,
 		};
-		this.position = {
-			x: this.position.x,
-			y: getFloorPos(this.canvas) - this.height,
-		};
-		this.lastKey = null;
+	}
+
+	updateState() {
+		let newState: fighterStates;
+		if (this.health <= 0) {
+			newState = 'Death';
+		} else if (this.isAttacking) {
+			newState = 'Attack1';
+		} else {
+			newState = getFighterState(this.velocity);
+		}
+
+		this.state = newState;
+		if (newState !== this.state) {
+			this.updateImage();
+		}
 	}
 }
