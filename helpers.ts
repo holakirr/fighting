@@ -1,4 +1,4 @@
-import { SCENE_HEIGHT, SPRITE_HEIGHT, SPRITE_WIDTH } from './constants.js';
+import { SCENE_HEIGHT, SPRITE_WIDTH } from './constants.js';
 import { Coordinates, FighterAbstract, fighterStates } from './types.d.js';
 
 export const rectangularCollision = ({ rect1, rect2 }: { rect1: FighterAbstract; rect2: FighterAbstract }) =>
@@ -27,12 +27,12 @@ export const keyListeners = {
 		switch (key) {
 			case 'd':
 			case 'a':
-				player1.lastKey = undefined;
+			case ' ':
 				player1.stop();
 				break;
 			case 'arrowright':
 			case 'arrowleft':
-				player2.lastKey = undefined;
+			case 'enter':
 				player2.stop();
 				break;
 		}
@@ -52,7 +52,6 @@ export const keyListeners = {
 				break;
 			case 'd':
 			case 'a':
-				player1.move();
 				movements[key].active = true;
 				player1.lastKey = key;
 				break;
@@ -68,7 +67,6 @@ export const keyListeners = {
 				break;
 			case 'arrowright':
 			case 'arrowleft':
-				player2.move();
 				movements[key].active = true;
 				player2.lastKey = key;
 				break;
@@ -81,11 +79,11 @@ export const keyListeners = {
 
 export const getBasePlayerPosition = (canvas: HTMLCanvasElement) => ({
 	x: canvas.width / 4 - SPRITE_WIDTH,
-	y: getFloorPos(canvas) - SPRITE_HEIGHT,
+	y: 0,
 });
 export const getBaseEnemyPosition = (canvas: HTMLCanvasElement) => ({
 	x: (canvas.width / 4) * 3,
-	y: getFloorPos(canvas) - SPRITE_HEIGHT,
+	y: 0,
 });
 
 export const getFighterState = (velocity: Coordinates): fighterStates => {

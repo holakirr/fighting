@@ -81,12 +81,10 @@ export class Fight {
 
 		// Detect collision
 		if (rectangularCollision({ rect1: this.player, rect2: this.enemy }) && this.player.isAttacking) {
-			this.player.isAttacking = false;
 			this.enemy.health -= BASE_FIGHTER_ATTACK;
 			this.UI.enemyHealth.style.width = `${this.enemy.health}%`;
 		}
 		if (rectangularCollision({ rect1: this.enemy, rect2: this.player }) && this.enemy.isAttacking) {
-			this.enemy.isAttacking = false;
 			this.player.health -= BASE_FIGHTER_ATTACK;
 			this.UI.playerHealth.style.width = `${this.player.health}%`;
 		}
@@ -134,8 +132,6 @@ export class Fight {
 		this.UI.popup.querySelector('.title').innerHTML = this.state;
 		this.UI.popup.classList.remove('hidden');
 		this.UI.timer.innerHTML = '0';
-		this.player.stop();
-		this.enemy.stop();
 
 		document.removeEventListener('keydown', this.keyDownListeners);
 		document.removeEventListener('keyup', this.keyUpListeners);

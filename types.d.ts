@@ -81,9 +81,9 @@ export abstract class FighterAbstract extends SpriteAbstract {
 	constructor(options: FighterOptions);
 
 	public abstract attack(): void;
-	public abstract move(): void;
 	public abstract die(): void;
 	public abstract jump(): void;
+	// public abstract move(): void;
 	public abstract stop(): void;
 }
 

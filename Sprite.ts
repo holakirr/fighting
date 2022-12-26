@@ -9,24 +9,32 @@ export class Sprite implements SpriteAbstract {
 	public scale: number;
 	public readonly canvas: HTMLCanvasElement;
 	framesElapsed = 0;
-	readonly framesHold = 10;
+	readonly framesHold = 5;
 	currentFrame: number;
 	offset?: Coordinates;
 	cyclically: boolean;
 
-	constructor({ canvas, position, imgSrc, scale, frames, offset = { x: 0, y: 0 }, cyclically = true }: SpriteOptions) {
+	constructor({
+		canvas,
+		position,
+		imgSrc,
+		scale = 1,
+		frames = 1,
+		offset = { x: 0, y: 0 },
+		cyclically = true,
+	}: SpriteOptions) {
+		this.img = new Image();
+		this.img.src = imgSrc;
 		this.canvas = canvas;
 		this.ctx = canvas.getContext('2d');
 		this.position = position;
-		this.img = new Image();
-		this.img.src = imgSrc;
-		this.frames = frames || 1;
+		this.frames = frames;
 		if (scale === 'fullscreen') {
 			this.img.onload = () => {
 				this.scale = this.canvas.width / this.img.width;
 			};
 		} else {
-			this.scale = scale ? scale : 1;
+			this.scale = scale;
 		}
 		this.currentFrame = 0;
 		this.offset = offset;
@@ -60,7 +68,7 @@ export class Sprite implements SpriteAbstract {
 			(this.img.width / this.frames) * this.scale,
 			this.img.height * this.scale,
 		);
-		this.addVisualDebug();
+		// this.addVisualDebug();
 	}
 
 	public addVisualDebug() {
