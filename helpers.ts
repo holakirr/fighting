@@ -2,7 +2,7 @@ import { SCENE_HEIGHT, SPRITE_WIDTH } from './constants.js';
 import { Coordinates, FighterAbstract, fighterStates } from './types.d.js';
 
 export const rectangularCollision = ({ rect1, rect2 }: { rect1: FighterAbstract; rect2: FighterAbstract }) =>
-	rect1.attackBox.position.x + rect1.attackBox.width >= rect2.position.x &&
+	rect1.attackBox.position.x + rect1.attackBox.width + rect1.attackBox.offset.x >= rect2.position.x &&
 	rect1.attackBox.position.x <= rect2.position.x + rect2.width &&
 	rect1.attackBox.position.y + rect1.attackBox.height >= rect2.position.y &&
 	rect1.attackBox.position.y <= rect2.position.y + rect2.height;
@@ -56,7 +56,7 @@ export const keyListeners = {
 				player1.lastKey = key;
 				break;
 			case ' ':
-				player1.attack();
+				!player1.isAttacking && !player1.isHit && player1.attack();
 				break;
 			// Enemy
 			case 'arrowup':
@@ -71,7 +71,7 @@ export const keyListeners = {
 				player2.lastKey = key;
 				break;
 			case 'enter':
-				player2.attack();
+				!player2.isAttacking && !player2.isHit && player2.attack();
 				break;
 		}
 	},

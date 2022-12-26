@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				frames: 8,
 			},
 		},
+		reversed: true,
 	});
 	const fight = new Fight({ canvas, player, enemy });
 

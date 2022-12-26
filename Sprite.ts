@@ -12,7 +12,6 @@ export class Sprite implements SpriteAbstract {
 	readonly framesHold = 5;
 	currentFrame: number;
 	offset?: Coordinates;
-	cyclically: boolean;
 
 	constructor({
 		canvas,
@@ -21,7 +20,7 @@ export class Sprite implements SpriteAbstract {
 		scale = 1,
 		frames = 1,
 		offset = { x: 0, y: 0 },
-		cyclically = true,
+		reversed = false,
 	}: SpriteOptions) {
 		this.img = new Image();
 		this.img.src = imgSrc;
@@ -38,7 +37,6 @@ export class Sprite implements SpriteAbstract {
 		}
 		this.currentFrame = 0;
 		this.offset = offset;
-		this.cyclically = cyclically;
 	}
 
 	public animateFrames() {
@@ -46,7 +44,7 @@ export class Sprite implements SpriteAbstract {
 			this.framesElapsed++;
 			if (this.framesElapsed % this.framesHold === 0) {
 				if (this.currentFrame === this.frames - 1) {
-					this.currentFrame = this.cyclically ? 0 : this.currentFrame;
+					this.currentFrame = 0;
 				} else {
 					this.currentFrame++;
 				}
@@ -68,6 +66,7 @@ export class Sprite implements SpriteAbstract {
 			(this.img.width / this.frames) * this.scale,
 			this.img.height * this.scale,
 		);
+
 		// this.addVisualDebug();
 	}
 

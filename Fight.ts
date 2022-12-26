@@ -1,4 +1,4 @@
-import { BASE_FIGHTER_ATTACK, BASE_TIME, STEP_LENGTH } from './constants.js';
+import { BASE_TIME, STEP_LENGTH } from './constants.js';
 import { determineWinner, keyListeners, rectangularCollision } from './helpers.js';
 import { Sprite } from './Sprite.js';
 import { FighterAbstract, FightOptions, Movements, SpriteAbstract } from './types.d.js';
@@ -81,11 +81,11 @@ export class Fight {
 
 		// Detect collision
 		if (rectangularCollision({ rect1: this.player, rect2: this.enemy }) && this.player.isAttacking) {
-			this.enemy.health -= BASE_FIGHTER_ATTACK;
+			!this.enemy.isHit && this.enemy.getHit();
 			this.UI.enemyHealth.style.width = `${this.enemy.health}%`;
 		}
 		if (rectangularCollision({ rect1: this.enemy, rect2: this.player }) && this.enemy.isAttacking) {
-			this.player.health -= BASE_FIGHTER_ATTACK;
+			!this.player.isHit && this.player.getHit();
 			this.UI.playerHealth.style.width = `${this.player.health}%`;
 		}
 

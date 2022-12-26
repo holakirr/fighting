@@ -18,7 +18,7 @@ export interface SpriteOptions {
 	scale?: SpriteScale;
 	frames?: number;
 	offset?: Coordinates;
-	cyclically?: boolean;
+	reversed?: boolean;
 }
 
 export abstract class SpriteAbstract {
@@ -32,7 +32,6 @@ export abstract class SpriteAbstract {
 	readonly framesHold: number;
 	currentFrame: number;
 	offset?: Coordinates;
-	cyclically: boolean;
 
 	abstract draw(): void;
 	abstract update(): void;
@@ -71,6 +70,7 @@ export abstract class FighterAbstract extends SpriteAbstract {
 	};
 	public health: number;
 	public isAttacking: boolean;
+	public isHit: boolean;
 	public lastKey: Keys;
 	public velocity: Coordinates;
 	public color: string;
@@ -83,7 +83,7 @@ export abstract class FighterAbstract extends SpriteAbstract {
 	public abstract attack(): void;
 	public abstract die(): void;
 	public abstract jump(): void;
-	// public abstract move(): void;
+	public abstract getHit(): void;
 	public abstract stop(): void;
 }
 
